@@ -2,9 +2,6 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import autoprefixer from "autoprefixer";
 import cssnanoPlugin from "cssnano";
-import { NgmiPolyfill } from "vite-plugin-ngmi-polyfill";
-import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 
 
 // https://vitejs.dev/config/
