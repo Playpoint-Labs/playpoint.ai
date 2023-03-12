@@ -1,0 +1,93 @@
+nav {
+  padding: 15px 1.5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: #131313;
+  color: #fff;
+
+  .logo__container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    img {
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+    }
+
+    h1 {
+      font-size: 34px;
+      font-family: "Bangers", cursive;
+    }
+  }
+
+  .utilities__container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .search__container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      input {
+        font-size: 20px;
+        background: rgb(248, 248, 248);
+        padding: 16px 13px;
+        border-radius: 15px;
+        font-family: "Oswald", sans-serif;
+        width: 30vw;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      .searchHandlerBtn {
+        background: #000;
+        color: #fff;
+        border-radius: 15px;
+        cursor: pointer;
+        outline: none;
+        font-size: 24px;
+        padding: 12px 0;
+        transition: 0.3s all ease-in-out;
+        font-family: "Oswald", sans-serif;
+
+        &:hover {
+          background: #f0f0f0;
+          color: #000;
+        }
+      }
+    }
+
+    .signInBtn__container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #000;
+      color: #fff;
+      border-radius: 15px;
+      cursor: pointer;
+      outline: none;
+      font-size: 18px;
+      font-weight: 600;
+      padding: 15px 35px;
+      transition: 0.3s all ease-in-out;
+      font-family: "Oswald", sans-serif;
+
+      i {
+        font-size: 19px;
+      }
+
+      &:hover {
+        background: #f0f0f0;
+        color: #000;
+      }
+    }
+  }
+}
