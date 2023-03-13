@@ -121,7 +121,7 @@ export default function Navbar() {
 
                 <div className="buyPPTT">
                   <h2>Purchase PPTT</h2>
-                  <p>Lorem Ipsum Dolor Sit Amet</p>
+                  <p>We're soon to be listed in Coinstore.</p>
                 </div>
               </div>
             </m.div>
@@ -180,7 +180,7 @@ export default function Navbar() {
                   scale: 1.3,
                   rotate: 360,
                 }}
-                className="ri-fingerprint-line"
+                className="ri-wallet-3-line"
               ></m.i>{" "}
               <span>Connect Wallet</span>
             </Button>

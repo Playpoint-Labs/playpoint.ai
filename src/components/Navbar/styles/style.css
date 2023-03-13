@@ -19,6 +19,12 @@ nav .menu__container .menuIcon {
   width: 70px;
   height: 50px;
 }
+@media (max-width: 576px) {
+  nav .menu__container .menuIcon {
+    width: 50px;
+    height: 40px;
+  }
+}
 nav .menu__container .menuIcon svg {
   position: relative;
   z-index: 1;
@@ -39,6 +45,11 @@ nav .menu__container .menuIcon i {
   transition: 0.3s all ease-in-out;
   cursor: pointer;
 }
+@media (max-width: 576px) {
+  nav .menu__container .menuIcon i {
+    font-size: 18px;
+  }
+}
 nav .menu__container .MuiButton-root {
   min-width: 0;
   padding: 0;
@@ -46,6 +57,11 @@ nav .menu__container .MuiButton-root {
   font-weight: 600;
   font-family: "Oswald", sans-serif;
   color: #fff;
+}
+@media (max-width: 576px) {
+  nav .menu__container .MuiButton-root {
+    display: none;
+  }
 }
 nav .menu__container .absoluteMenu__container {
   position: absolute;
@@ -58,12 +74,25 @@ nav .menu__container .absoluteMenu__container {
   display: flex;
   align-items: flex-end;
   z-index: 2;
+  flex-wrap: wrap;
+}
+@media (max-width: 576px) {
+  nav .menu__container .absoluteMenu__container {
+    padding: 50px 5vw;
+    overflow-y: scroll;
+  }
 }
 nav .menu__container .absoluteMenu__container .titleMenuItems {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 70px;
+}
+@media (max-width: 576px) {
+  nav .menu__container .absoluteMenu__container .titleMenuItems {
+    gap: 20px;
+    margin-bottom: 30px;
+  }
 }
 nav .menu__container .absoluteMenu__container .titleMenuItems span {
   font-weight: 700;
@@ -129,6 +158,11 @@ nav .logo__container h1 {
   font-family: "Bangers", cursive;
   cursor: pointer;
 }
+@media (max-width: 576px) {
+  nav .logo__container h1 {
+    font-size: 30px;
+  }
+}
 nav .utilities__container {
   display: flex;
   align-items: center;
@@ -161,6 +195,11 @@ nav .utilities__container .search__container .searchHandlerBtn {
   transition: 0.3s all ease-in-out;
   font-family: "Oswald", sans-serif;
 }
+@media (max-width: 576px) {
+  nav .utilities__container .search__container .searchHandlerBtn {
+    display: none;
+  }
+}
 nav .utilities__container .search__container .searchHandlerBtn:hover {
   background: #4be1a4;
   color: #000;
@@ -172,15 +211,32 @@ nav .utilities__container .signInBtn__container {
   border: 1px solid #4be1a4;
   background: rgba(75, 225, 165, 0.3529411765);
   color: #fff;
-  border-radius: 15px;
+  border-radius: 12px;
   cursor: pointer;
   outline: none;
   font-size: 18px;
   font-weight: 600;
-  padding: 12px 35px;
+  padding: 12px 20px;
   transition: 0.3s all ease-in-out;
   font-family: "Oswald", sans-serif;
 }
+@media (max-width: 576px) {
+  nav .utilities__container .signInBtn__container {
+    max-width: 40px;
+    max-height: 40px;
+    min-width: 0;
+    font-weight: 400;
+    border-radius: 0;
+  }
+  nav .utilities__container .signInBtn__container span {
+    display: none;
+  }
+}
 nav .utilities__container .signInBtn__container i {
   font-size: 19px;
+}
+@media (max-width: 576px) {
+  nav .utilities__container .signInBtn__container i {
+    font-size: 18px;
+  }
 }/*# sourceMappingURL=style.css.map */
