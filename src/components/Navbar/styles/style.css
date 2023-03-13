@@ -80,6 +80,7 @@ nav .menu__container .absoluteMenu__container {
   nav .menu__container .absoluteMenu__container {
     padding: 50px 5vw;
     overflow-y: scroll;
+    padding-bottom: 100px;
   }
 }
 nav .menu__container .absoluteMenu__container .titleMenuItems {

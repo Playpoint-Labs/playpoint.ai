@@ -12,10 +12,14 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.11.12",
+    "@web3modal/ethereum": "^2.2.0",
+    "@web3modal/react": "^2.2.0",
+    "ethers": "^5",
     "framer-motion": "^10.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "remixicon": "^2.5.0"
+    "remixicon": "^2.5.0",
+    "wagmi": "^0.12.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
