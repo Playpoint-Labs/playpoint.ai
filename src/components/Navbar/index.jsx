@@ -1,427 +1,192 @@
-import * as React from "react";
-import { Drawer, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { Button } from "@mui/material";
+import { m, AnimatePresence } from "framer-motion";
+
 import "./styles/style.css";
-import { useRPCContext } from "../../contexts/WalletRPC/RPCContext";
-import { ACTIONS } from "../../contexts/WalletRPC/RPCReducer";
-import { toast } from "react-toastify";
-import { formatEther, BrowserProvider, Contract } from "ethers";
-import { useTranslation } from "react-i18next";
-import useWindowDimensions from "../../helpers/UseWindowDimension";
-import DrawerList from "../DrawerList";
-import ERC20BasicAPI from "../../utils/ERC20BasicABI.json";
-const { ethereum } = window;
 
-export default function Navbar({ toggleAuthenticationDrawer }) {
-  const navigate = useNavigate();
-  const { t } = useTranslation();
-  const [
-    {
-      isWalletConnected,
-      username,
-      userPublicAddress,
-      network,
-      isNonWalletUser,
-    },
-    dispatchRPCData,
-  ] = useRPCContext();
-  const [balance, setBalance] = React.useState({
-    ethBalance: 0,
-    ppttBalance: 0,
-  });
-  const [loading, setLoading] = React.useState(false);
-
-  React.useEffect(() => {
-    if (isNonWalletUser) {
-      if (isWalletConnected && network === "arbitrum") {
-        const provider = new BrowserProvider(ethereum);
-        const contract = new Contract(
-          import.meta.env.VITE_BETA_PPTT_CONTRACT_ADDRESS,
-          ERC20BasicAPI,
-          provider
-        );
-        (async () => {
-          // eth contract
-          const ethBalance = await provider.getBalance(userPublicAddress);
-          const PPTTBalance = await contract.balanceOf(userPublicAddress);
-          setBalance({
-            ethBalance: formatEther(ethBalance),
-            ppttBalance: formatEther(PPTTBalance),
-          });
-          
-          const data = {
-            isWalletConnected,
-            username,
-            userPublicAddress,
-            network,
-            userPPTTBalance: formatEther(PPTTBalance),
-            userETHBalance: formatEther(ethBalance),
-          };
-
-          await dispatchRPCData({
-            type: ACTIONS.WALLET_CONNECT,
-            payload: data,
-          });
-        })();
-      }
-
-      if (isWalletConnected && network === "shasta") {
-        setBalance({
-          ethBalance: 0,
-          ppttBalance: 0,
-        });
-
-        (async () => {
-          const data = {
-            isWalletConnected,
-            username,
-            userPublicAddress,
-            userPPTTBalance: 0,
-            userETHBalance: 0,
-            network,
-          };
-
-          await dispatchRPCData({
-            type: ACTIONS.WALLET_CONNECT,
-            payload: data,
-          });
-        })();
-      }
-    } else {
-      console.log("NON WALLET USER FOUND", network)
-      if (isWalletConnected && network === "arbitrum") {
-        (async () => {
-          const ethBalance = (10 * 10**18).toString();
-          const PPTTBalance = (10 * 10**18).toString();
-          setBalance({
-            ethBalance: formatEther(ethBalance),
-            ppttBalance: formatEther(PPTTBalance),
-          });
-          console.log(balance)
-          const data = {
-            isWalletConnected,
-            username,
-            userPublicAddress,
-            network,
-            userPPTTBalance: formatEther(PPTTBalance),
-            userETHBalance: formatEther(ethBalance),
-          };
-
-          await dispatchRPCData({
-            type: ACTIONS.WALLET_CONNECT,
-            payload: data,
-          });
-        })();
-      }
-
-      if (isWalletConnected && network === "shasta") {
-        setBalance({
-          ethBalance: 0,
-          ppttBalance: 0,
-        });
-
-        (async () => {
-          const data = {
-            isWalletConnected,
-            username,
-            userPublicAddress,
-            userPPTTBalance: 0,
-            userETHBalance: 0,
-            network,
-          };
-
-          await dispatchRPCData({
-            type: ACTIONS.WALLET_CONNECT,
-            payload: data,
-          });
-        })();
-      }
-    }
-  }, [isWalletConnected, userPublicAddress, network]);
-
-  const handleLogout = () => {
-    dispatchRPCData({ type: ACTIONS.WALLET_DISCONNECT });
-    toast.error("Wallet Disconnected!");
+export default function Navbar() {
+  const [searchCollapsed, setSearchCollapsed] = React.useState(true);
+  const handleSearchCollapse = () => {
+    setSearchCollapsed(!searchCollapsed);
+  };
+  const inputVariants = {
+    visible: { opacity: 1 },
+    hidden: { opacity: 0 },
+  };
+  const inputItem = {
+    visible: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, x: -100 },
   };
 
-  /**
-   * @dev NavbarSM Devices drawer utilsLogin
-   */
-  const [navSMState, setnavSMState] = React.useState({
-    right: false,
-  });
-
-  const [showmore, setShowMore] = React.useState(false);
-
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    setnavSMState({ ...navSMState, [anchor]: open });
+  const [menuCollapsed, setMenuCollapsed] = React.useState(true);
+  const handleMenuCollapse = () => {
+    menuCollapsed
+      ? (document.body.style.overflowY = "hidden")
+      : (document.body.style.overflowY = "scroll");
+    setMenuCollapsed(!menuCollapsed);
   };
-
-  const { width } = useWindowDimensions();
 
   return (
-    <>
-      <div className="navbar__container">
-        <div className="logo__container">
-          <img
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate("/");
-            }}
-            src="https://ik.imagekit.io/domsan/Logo_0vBSw9piY.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1662803005580"
-            height={"40"}
-            width="40"
-            alt="playpoint_logo"
-          />
-          <h3
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate("/");
+    <nav>
+      <div className="menu__container">
+        <m.div
+          whileHover={{ scale: 1.1 }}
+          onClick={() => handleMenuCollapse()}
+          className="menuIcon"
+        >
+          <svg viewBox="0 0 64 48">
+            <path
+              class="MenuButton_shapeA__R8GEG"
+              d="M.5,4C.5,2.07,2.07,.5,4,.5H60c1.93,0,3.5,1.57,3.5,3.5v30.34c0,.93-.37,1.82-1.03,2.47l-9.66,9.66c-.66,.66-1.55,1.03-2.47,1.03H4c-1.93,0-3.5-1.57-3.5-3.5V4Z"
+            ></path>
+            <path
+              class="MenuButton_shapeB__D1sqd"
+              d="M50.34,48H4c-2.21,0-4-1.79-4-4V4C0,1.79,1.79,0,4,0H60C62.21,0,64,1.79,64,4v30.34c0,1.07-.42,2.07-1.17,2.83l-9.66,9.66c-.76,.76-1.76,1.17-2.83,1.17ZM4,1c-1.65,0-3,1.35-3,3V44c0,1.65,1.35,3,3,3H50.34c.8,0,1.55-.31,2.12-.88l9.66-9.66c.57-.57,.88-1.32,.88-2.12V4c0-1.65-1.35-3-3-3H4Z"
+            ></path>
+          </svg>
+          {!menuCollapsed ? (
+            <i class="ri-eye-close-line"></i>
+          ) : (
+            <i className="ri-links-line"></i>
+          )}
+        </m.div>
+        <Button onClick={() => handleMenuCollapse()}>
+          {!menuCollapsed ? "Close Menu" : "Menu"}
+        </Button>
+
+        <AnimatePresence>
+          {!menuCollapsed && (
+            <m.div
+              initial={{ opacity: 0, y: -15 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: 0.2 } }}
+              exit={{ opacity: 0, y: -15 }}
+              className="absoluteMenu__container"
+            >
+              <div className="titleMenuItems">
+                <span>Explore</span>
+                <span className="backlink">
+                  Documentation <i className="ri-arrow-right-up-line"></i>
+                </span>
+                <span>Marketplace</span>
+                <span className="backlink">
+                  BLOG <i className="ri-arrow-right-up-line"></i>
+                </span>
+                <span>Leaderboard</span>
+                <span>Discussion</span>
+              </div>
+              <div className="menuItems">
+                <div className="menuLinkss">
+                  <h2>LINKS</h2>
+                  <ul>
+                    <li>About</li>
+                    <li>Resources</li>
+                    <li>Careers</li>
+                    <li>User Guide</li>
+                    <li>FAQs</li>
+                    <li className="backlink">
+                      TERMS OF USE <i className="ri-arrow-right-up-line"></i>
+                    </li>
+                    <li className="backlink">
+                      PRIVACY POLICY <i className="ri-arrow-right-up-line"></i>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="menuSocials">
+                  <h2>SOCIAL</h2>
+                  <ul>
+                    <li>
+                      <i className="ri-twitter-fill"></i> Twitter
+                    </li>
+                    <li>
+                      <i className="ri-telegram-fill"></i> Telegram
+                    </li>
+                    <li>
+                      <i className="ri-discord-fill"></i> Discord
+                    </li>
+                    <li>
+                      <i className="ri-medium-fill"></i>Medium
+                    </li>
+                    <li>
+                      <i className="ri-github-fill"></i> Github
+                    </li>
+                    <li>
+                      <i className="ri-linkedin-fill"></i> Linkedin
+                    </li>
+                    <li>
+                      <i className="ri-facebook-fill"></i> Facebook
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="buyPPTT">
+                  <h2>Purchase PPTT</h2>
+                  <p>We're soon to be listed in Coinstore.</p>
+                </div>
+              </div>
+            </m.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <div className="logo__container">
+        <h1>Playpoint</h1>
+      </div>
+
+      <div className="utilities__container">
+        <div className="search__container">
+          <AnimatePresence>
+            {!searchCollapsed && (
+              <m.div
+                initial="hidden"
+                animate="visible"
+                exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                variants={inputVariants}
+              >
+                <m.input
+                  variants={inputItem}
+                  type="text"
+                  placeholder="Search Marketplace, Users, Games..."
+                />
+              </m.div>
+            )}
+          </AnimatePresence>
+
+          <m.div
+            whileHover={{ rotate: 90 }}
+            whileTap={{
+              borderRadius: "50%",
             }}
           >
-            Playpoint
-          </h3>
-
-          <div className="navLinks">
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate("/");
-              }}
+            <Button
+              className="searchHandlerBtn"
+              onClick={() => handleSearchCollapse()}
             >
-              {t("Home")}
-            </div>
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                window.open("https://docs.playpoint.ai/");
-              }}
-            >
-              {t("Documentation")}
-            </div>
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate("/leaderboards");
-              }}
-            >
-              {t("Leaderboards")}
-            </div>
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate("/marketplace");
-              }}
-            >
-              {t("Marketplace")}
-            </div>
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate("/challenges");
-              }}
-            >
-              {t("Challenges")}
-            </div>
-            <div
-              onClick={(e) => {
-                e.stopPropagation(), navigate("/discussion");
-              }}
-            >
-              {t("Discussion")}
-            </div>
-          </div>
-        </div>
-
-        <div className="navbar__authentication">
-          {isWalletConnected && (
-            <div className="more">
-              <div
-                className="tooltip"
-                style={{ cursor: "pointer" }}
-                onClick={() => setShowMore((prev) => !prev)}
-              >
-                <i className="ri-more-2-line"></i>
-              </div>
-              <div className={`balance__container ${showmore ? "show" : ""} ?`}>
-                <div
-                  className="balance"
-                  onClick={(e) => {
-                    if (!isNonWalletUser) {
-                      e.stopPropagation();
-                      ethereum
-                        .request({
-                          method: "wallet_watchAsset",
-                          params: {
-                            type: "ERC20",
-                            options: {
-                              address: import.meta.env
-                                .VITE_BETA_PPTT_CONTRACT_ADDRESS,
-                              symbol: "PPTT",
-                              decimals: 18,
-                              image: "https://ik.imagekit.io/lexworld/Logo.png",
-                            },
-                          },
-                        })
-                        .then((success) => {
-                          if (success) {
-                            toast("PPTT successfully added to wallet!");
-                          } else {
-                            throw new Error("Something went wrong.");
-                          }
-                        })
-                        .catch(console.error);
-                    }
-                  }}
-                >
-                  <img
-                    src="https://ethereum.org/static/4f10d2777b2d14759feb01c65b2765f7/69ce7/eth-glyph-colored.webp"
-                    alt="ethereum"
-                    loading="lazy"
-                  />
-                  <p>{parseFloat(balance.ppttBalance).toFixed(2)} PPTT</p>
-                </div>
-                <div className="balance">
-                  <img
-                    src="https://ethereum.org/static/c48a5f760c34dfadcf05a208dab137cc/3a0ba/eth-diamond-rainbow.webp"
-                    alt="ethereum"
-                    loading="lazy"
-                  />
-                  <p>{parseFloat(balance.ethBalance).toFixed(2)} ETH</p>
-                </div>
-                <button
-                  onClick={() => window.open("https://app.playpoint.ai/")}
-                  className="buyButton"
-                >
-                  <i className="ri-coin-fill"></i>
-                  {t("BuyPPTT")}
-                </button>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate("/profile");
-                  }}
-                >
-                  <i className="ri-user-line"></i>{" "}
-                  {isWalletConnected === true && <span>{username}</span>}
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {width > 1441 && isWalletConnected && (
-            <>
-              <div
-                className="balance"
-                onClick={(e) => {
-                  if (!isNonWalletUser) {
-                    e.stopPropagation();
-                    ethereum
-                      .request({
-                        method: "wallet_watchAsset",
-                        params: {
-                          type: "ERC20",
-                          options: {
-                            address: import.meta.env
-                              .VITE_BETA_PPTT_CONTRACT_ADDRESS,
-                            symbol: "PPTT",
-                            decimals: 18,
-                            image: "https://ik.imagekit.io/lexworld/Logo.png",
-                          },
-                        },
-                      })
-                      .then((success) => {
-                        if (success) {
-                          toast("PPTT successfully added to wallet!");
-                        } else {
-                          throw new Error("Something went wrong.");
-                        }
-                      })
-                      .catch(console.error);
-                  }
+              {searchCollapsed ? (
+                <i className="ri-search-line"></i>
+              ) : (
+                <i className="ri-close-line"></i>
+              )}
+            </Button>
+          </m.div>
+          <m.div
+            initial={{ opacity: 0, scale: 1.2 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.05 }}
+          >
+            <Button className="signInBtn__container">
+              <m.i
+                whileHover={{
+                  scale: 1.3,
+                  rotate: 360,
                 }}
-              >
-                <img
-                  src="https://ethereum.org/static/4f10d2777b2d14759feb01c65b2765f7/69ce7/eth-glyph-colored.webp"
-                  alt="ethereum"
-                  loading="lazy"
-                />
-                <p>{parseFloat(balance.ppttBalance).toFixed(2)} PPTT</p>
-              </div>
-              <div className="balance">
-                <img
-                  src="https://ethereum.org/static/c48a5f760c34dfadcf05a208dab137cc/3a0ba/eth-diamond-rainbow.webp"
-                  alt="ethereum"
-                  loading="lazy"
-                />
-                <p>{parseFloat(balance.ethBalance).toFixed(2)} ETH</p>
-              </div>
-            </>
-          )}
-          {width > 1441 && (
-            <button
-              onClick={() => window.open("https://app.playpoint.ai/")}
-              className="buyButton"
-            >
-              <i className="ri-coin-fill"></i>
-              {t("BuyPPTT")}
-            </button>
-          )}
-          {isWalletConnected === false && (
-            <Button
-              disabled={loading}
-              onClick={() => toggleAuthenticationDrawer()}
-            >
-              👛 {t("ConnectWallet")}
+                className="ri-wallet-3-line"
+              ></m.i>{" "}
+              <span>Connect Wallet</span>
             </Button>
-          )}
-          {isWalletConnected && (
-            <Button
-              onClick={(e) => {
-                e.stopPropagation(), navigate("/profile");
-              }}
-            >
-              <i className="ri-user-line"></i>
-              {username}
-            </Button>
-          )}
-          {isWalletConnected && (
-            <Button onClick={() => handleLogout()}>
-              {" "}
-              <i className="ri-logout-box-line"></i> {t("Logout")}
-            </Button>
-          )}
-        </div>
-
-        <div className="drawer">
-          <div onClick={toggleDrawer("right", true)}>
-            <i className="ri-menu-3-line"></i>
-          </div>
-          <Drawer
-            anchor={"right"}
-            open={navSMState["right"]}
-            onClose={toggleDrawer("right", false)}
-          >
-            <DrawerList
-              anchor={"right"}
-              toggleDrawer={toggleDrawer}
-              isWalletConnected={isWalletConnected}
-              username={username}
-              balance={balance}
-              handleLogout={handleLogout}
-              loading={loading}
-              toggleAuthenticationDrawer={toggleAuthenticationDrawer}
-            />
-          </Drawer>
+          </m.div>
         </div>
       </div>
-    </>
+    </nav>
   );
 }
