@@ -1,3 +1,4 @@
+//
 nav {
   padding: 15px 1.5vw;
   display: flex;
@@ -6,21 +7,158 @@ nav {
   flex-wrap: wrap;
   background: #131313;
   color: #fff;
+  position: relative;
+  z-index: 3;
+
+  .menu__container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .menuIcon {
+      position: relative;
+      width: 70px;
+      height: 50px;
+
+      svg {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        fill: #4be1a55a;
+        transition: 0.3s all ease-in-out;
+      }
+
+      i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+        z-index: 2;
+        color: #fff;
+        transition: 0.3s all ease-in-out;
+        cursor: pointer;
+      }
+    }
+
+    .MuiButton-root {
+      min-width: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: 600;
+      font-family: "Oswald", sans-serif;
+      color: #fff;
+    }
+
+    .absoluteMenu__container {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100vw;
+      height: calc(100vh - 100%);
+      background: linear-gradient(
+        90deg,
+        rgb(6, 17, 13) 30%,
+        rgba(6, 17, 13, 0.75) 115%
+      );
+      padding: 50px 2vw;
+      display: flex;
+      align-items: flex-end;
+      z-index: 2;
+
+      .titleMenuItems {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 70px;
+
+        span {
+          font-weight: 700;
+          line-height: 85%;
+          letter-spacing: -0.01em;
+          font-size: clamp(2.5rem, 4.5vw + 1.4rem, 8.5rem);
+          font-family: "Oswald", sans-serif;
+          text-transform: uppercase;
+          cursor: pointer;
+
+          &.backlink{
+            i{
+                color: #4be1a4;
+            }
+          }
+        }
+      }
+
+      .menuItems {
+        h2 {
+          color: #4be1a4;
+          font-family: "Oswald", sans-serif;
+          margin-bottom: 10px;
+        }
+
+        ul {
+          list-style: none;
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 15px;
+          margin-bottom: 30px;
+        }
+        li {
+          font-size: clamp(1.125rem, 0.2vw + 1.1rem, 1.3125rem);
+          font-family: "Lato", sans-serif;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          min-width: 150px;
+          cursor: pointer;
+
+          &.backlink{
+            align-items: flex-start;
+            font-size: 14px;
+
+            i{
+                color: #4be1a4;
+            }
+          }
+        }
+      }
+
+      .buyPPTT {
+        background-image: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 4px,
+          rgb(75, 225, 164) 4px,
+          rgb(75, 225, 164) 6px
+        );
+        padding: 10px 0 10px 10px;
+
+        h2,
+        p {
+          background: #000;
+          padding: 5px;
+        }
+
+        p {
+          font-size: clamp(1.125rem, 0.2vw + 1.1rem, 1.3125rem);
+          font-family: "Lato", sans-serif;
+        }
+      }
+    }
+  }
 
   .logo__container {
     display: flex;
     align-items: center;
     gap: 15px;
 
-    img {
-      width: 60px;
-      height: 60px;
-      cursor: pointer;
-    }
-
     h1 {
-      font-size: 34px;
+      font-size: 40px;
       font-family: "Bangers", cursive;
+      cursor: pointer;
     }
   }
 
@@ -59,7 +197,7 @@ nav {
         font-family: "Oswald", sans-serif;
 
         &:hover {
-          background: #f0f0f0;
+          background: #4be1a4;
           color: #000;
         }
       }
@@ -69,24 +207,20 @@ nav {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: #000;
+      border: 1px solid #4be1a4;
+      background: #4be1a55a;
       color: #fff;
       border-radius: 15px;
       cursor: pointer;
       outline: none;
       font-size: 18px;
       font-weight: 600;
-      padding: 15px 35px;
+      padding: 12px 35px;
       transition: 0.3s all ease-in-out;
       font-family: "Oswald", sans-serif;
 
       i {
         font-size: 19px;
-      }
-
-      &:hover {
-        background: #f0f0f0;
-        color: #000;
       }
     }
   }

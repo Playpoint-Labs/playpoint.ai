@@ -7,6 +7,12 @@
   /* font-family: "Bangers", cursive; */
   /* font-family: 'Lato', sans-serif; */
   /* font-family: 'Oswald', sans-serif; */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 html {
