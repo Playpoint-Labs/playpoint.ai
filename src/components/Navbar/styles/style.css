@@ -74,10 +74,10 @@ nav .menu__container .absoluteMenu__container {
   display: flex;
   align-items: flex-end;
   z-index: 2;
-  flex-wrap: wrap;
 }
 @media (max-width: 576px) {
   nav .menu__container .absoluteMenu__container {
+    flex-wrap: wrap;
     padding: 50px 5vw;
     overflow-y: scroll;
     padding-bottom: 100px;
@@ -210,14 +210,13 @@ nav .utilities__container .signInBtn__container {
   align-items: center;
   gap: 10px;
   border: 1px solid #4be1a4;
-  background: rgba(75, 225, 165, 0.3529411765);
-  color: #fff;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 4px, rgb(75, 225, 164) 4px, rgb(75, 225, 164) 6px);
   border-radius: 12px;
   cursor: pointer;
   outline: none;
   font-size: 18px;
   font-weight: 600;
-  padding: 12px 20px;
+  padding: 9px 10px;
   transition: 0.3s all ease-in-out;
   font-family: "Oswald", sans-serif;
 }
