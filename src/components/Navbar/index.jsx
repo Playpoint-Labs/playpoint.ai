@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import { m, AnimatePresence } from "framer-motion";
+import { Web3Button } from "@web3modal/react";
 
 import "./styles/style.css";
 
@@ -36,16 +37,16 @@ export default function Navbar() {
         >
           <svg viewBox="0 0 64 48">
             <path
-              class="MenuButton_shapeA__R8GEG"
+              className="MenuButton_shapeA__R8GEG"
               d="M.5,4C.5,2.07,2.07,.5,4,.5H60c1.93,0,3.5,1.57,3.5,3.5v30.34c0,.93-.37,1.82-1.03,2.47l-9.66,9.66c-.66,.66-1.55,1.03-2.47,1.03H4c-1.93,0-3.5-1.57-3.5-3.5V4Z"
             ></path>
             <path
-              class="MenuButton_shapeB__D1sqd"
+              className="MenuButton_shapeB__D1sqd"
               d="M50.34,48H4c-2.21,0-4-1.79-4-4V4C0,1.79,1.79,0,4,0H60C62.21,0,64,1.79,64,4v30.34c0,1.07-.42,2.07-1.17,2.83l-9.66,9.66c-.76,.76-1.76,1.17-2.83,1.17ZM4,1c-1.65,0-3,1.35-3,3V44c0,1.65,1.35,3,3,3H50.34c.8,0,1.55-.31,2.12-.88l9.66-9.66c.57-.57,.88-1.32,.88-2.12V4c0-1.65-1.35-3-3-3H4Z"
             ></path>
           </svg>
           {!menuCollapsed ? (
-            <i class="ri-eye-close-line"></i>
+            <i className="ri-eye-close-line"></i>
           ) : (
             <i className="ri-links-line"></i>
           )}
@@ -173,17 +174,9 @@ export default function Navbar() {
             initial={{ opacity: 0, scale: 1.2 }}
             animate={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05 }}
+            className="signInBtn__container"
           >
-            <Button className="signInBtn__container">
-              <m.i
-                whileHover={{
-                  scale: 1.3,
-                  rotate: 360,
-                }}
-                className="ri-wallet-3-line"
-              ></m.i>{" "}
-              <span>Connect Wallet</span>
-            </Button>
+            <Web3Button />
           </m.div>
         </div>
       </div>
